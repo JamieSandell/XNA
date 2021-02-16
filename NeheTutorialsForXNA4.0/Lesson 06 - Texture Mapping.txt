@@ -1,0 +1,54 @@
+This lesson will teach you how to apply textures to objects.
+
+What is a texture?
+------------------
+A texture is an image in the form of a quad (This tutorial will deal with two dimensional textures).
+The texture is comprised of texels, or textual elements, just as a picture is made up of pixels (pixel elements).
+
+How Textures Work
+------------------
+As previously stated, a texture is comprised of texels, these texels are represented on a 2D axis called UV (much like the XY coordinate system). However the V axis (which can be thought of as the Y axis) goes from top to bottom, not from bottom to top like the Y axis in XNA. The following diagram should help highlight this:
+
+0, 0	   1, 0
+------------
+|	   |
+|	   |
+|	   |
+|	   |
+------------
+0, 1	   1, 1
+
+As you can see the U and V axes go from 0 to 1, meaning the texels of our texture lie within this range.
+
+Why Use Textures?
+-----------------
+A texture can greatly add realism to your scene. To create a brick wall we could either construct a wall out of lots of quads and colour them appropriately, or we could create one quad and apply a brick wall texture to it. Which do you think is easier to do? Of course the texture route. Underneath it's just a flat quad but it will appear to the user as if it really is a brick wall.
+
+Implementation
+---------------
+1.) Add the resource
+2.) Load the texture into memory
+3.) Apply the texture to the correct before drawing the shape.
+
+Step 1 is achieve by right clicking the Content directory and adding a resource, you can either add the resource as a link or by choosing to copy it to the Content folder. Since we have created a folder called Textures in the Content folder and moved the texture into it we choose to add it as a link.
+
+Step 2 is very easy to achieve in XNA. This is because XNA already has built in facilities to load in a range of image types into memory for us. Actually XNA converts it into propriety xnb format and uses this to load the resource into memory.
+This line accomplishes this:
+
+m_texture = Content.Load<Texture2D>("Textures\\Nehe");
+
+m_texture is of type Texture2D. The Content.Load method is a generic method so we explicity tell it we are going to be loading a Texture2D asset. In quote marks we put the directory and asset name to load.
+
+Step 3 is done by enabling textures in our effect and then applying the each shapes texture before drawing.
+m_basicEffect.TextureEnabled = true;
+m_basicEffect.Texture = m_pyramid.Texture;
+m_basicEffect.Texture = m_cube.Texture;
+
+You'll notice that the colors of the textures look different between the Pyramid and the Cube, this is because the cube ignores the color set by VertexPositionColor.Color and uses the color of the texture. This is achieved by setting the VertexPositionColor.Color to Color.White. The Pyramid applies the colour of the vertex and the colour of the corresponding texel by taking a sample of both the vertex colour and the texel colour.
+
+And that's it for this lesson, in the next lesson I will demonstrate more texture techniques such as mip-mapping.
+P.S. There have been changes to the shape classes to allow setting/getting a texture and altering the vertex type from VertexPositionColor to VertexPositionColorTexture.
+
+Exercises
+----------
+1.) Change the texture of the cube and the pyramid to another texture.

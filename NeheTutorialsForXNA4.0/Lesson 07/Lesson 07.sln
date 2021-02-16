@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Part 01 - PerVertexLighting", "Lesson 07\Lesson 07\Part 01 - PerVertexLighting.csproj", "{558A14DD-DC47-4491-8BDB-3ABA673A23FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lesson 07Content", "Lesson 07\Lesson 07Content\Lesson 07Content.contentproj", "{8F9E1CB2-2ADF-46E2-9584-AEF294D3228C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Part 02 - Point Lights", "Part 02 - Point Lights\Part 02 - Point Lights\Part 02 - Point Lights.csproj", "{7AA24FBF-B2D7-4741-AD1C-D8E378E4742E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Part 02 - Point LightsContent", "Part 02 - Point Lights\Part 02 - Point LightsContent\Part 02 - Point LightsContent.contentproj", "{D409A15C-B194-4C61-9D29-E83CE896F831}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Part 03 - Point Lights with Textures", "Part 03 - Point Lights with Textures\Part 03 - Point Lights with Textures\Part 03 - Point Lights with Textures.csproj", "{F3F56D03-32C6-414B-AFD0-EDA4EDDCD08E}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "Part 03 - Point Lights with TexturesContent", "Part 03 - Point Lights with Textures\Part 03 - Point Lights with TexturesContent\Part 03 - Point Lights with TexturesContent.contentproj", "{AAB79EEA-211C-462A-9CFA-9DFCA872D9AA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{558A14DD-DC47-4491-8BDB-3ABA673A23FA}.Debug|x86.ActiveCfg = Debug|x86
+		{558A14DD-DC47-4491-8BDB-3ABA673A23FA}.Debug|x86.Build.0 = Debug|x86
+		{558A14DD-DC47-4491-8BDB-3ABA673A23FA}.Release|x86.ActiveCfg = Release|x86
+		{558A14DD-DC47-4491-8BDB-3ABA673A23FA}.Release|x86.Build.0 = Release|x86
+		{8F9E1CB2-2ADF-46E2-9584-AEF294D3228C}.Debug|x86.ActiveCfg = Debug|x86
+		{8F9E1CB2-2ADF-46E2-9584-AEF294D3228C}.Release|x86.ActiveCfg = Release|x86
+		{7AA24FBF-B2D7-4741-AD1C-D8E378E4742E}.Debug|x86.ActiveCfg = Debug|x86
+		{7AA24FBF-B2D7-4741-AD1C-D8E378E4742E}.Debug|x86.Build.0 = Debug|x86
+		{7AA24FBF-B2D7-4741-AD1C-D8E378E4742E}.Release|x86.ActiveCfg = Release|x86
+		{7AA24FBF-B2D7-4741-AD1C-D8E378E4742E}.Release|x86.Build.0 = Release|x86
+		{D409A15C-B194-4C61-9D29-E83CE896F831}.Debug|x86.ActiveCfg = Debug|x86
+		{D409A15C-B194-4C61-9D29-E83CE896F831}.Release|x86.ActiveCfg = Release|x86
+		{F3F56D03-32C6-414B-AFD0-EDA4EDDCD08E}.Debug|x86.ActiveCfg = Debug|x86
+		{F3F56D03-32C6-414B-AFD0-EDA4EDDCD08E}.Debug|x86.Build.0 = Debug|x86
+		{F3F56D03-32C6-414B-AFD0-EDA4EDDCD08E}.Release|x86.ActiveCfg = Release|x86
+		{F3F56D03-32C6-414B-AFD0-EDA4EDDCD08E}.Release|x86.Build.0 = Release|x86
+		{AAB79EEA-211C-462A-9CFA-9DFCA872D9AA}.Debug|x86.ActiveCfg = Debug|x86
+		{AAB79EEA-211C-462A-9CFA-9DFCA872D9AA}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

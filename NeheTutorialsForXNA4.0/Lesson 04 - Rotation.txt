@@ -1,0 +1,37 @@
+In this lesson we discuss the topic of rotation. I will demonstrate how to rotate an object about it's origin (the triangle), and how to perform a rotation of one object around another (our square "orbiting" around the triangle). I also introduce the concept of processor independant animation, which sounds a lot more complicated then it is, and is made almost trivial by XNA's built in GameTime class.
+
+Firstly what is processor independant animation and why do we need it? Processor independant animation is simply animating an object across a steady timeline that is not affected by the speed of the processor. We need processor independant animation so that our objects are animated the same across all computers. For example if we didn't utilise processor independent animation, then our objects would be animated faster on a 2Ghz processor than on a 300Mhz processor, which is not what we want. This would mean that a player could move faster in an first person shooter than another player if they have a faster computer and processor independent animation is not implemented.
+How do we achieve this? We achieve this by keeping track of how long frames take to be updated. If a frame is taking 1 second per frame (extremely slow) to update then we will animate our objects based on this 1 second per frame. If however our frame was updating at 0.00001 seconds per frame, we would animate our objects upon this 0.00001 seconds per frame.
+If we was using OpenGL (which NeHe's tutorials are based upon, and which these tutorials are converted from) we would have to write our own timer class to keep track of how fast a single frame takes to be updated. Fortunately XNA provides us with the GameTime class which takes care of this, and you may have already noticed that our overridden Update method takes in a GameTime parameter.
+
+Now let's discuss rotation.
+We can use the Matrix.CreateRotation method to rotate our objects. The method takes a float, representing the angle in radians to rotate by.
+If we want to rotate around the Y axis we would use Matrix.CreationRotationY(ourAngleInRadians);
+But how will our object rotate? We either need to translate our object into position, and then apply the rotation (so it will rotate on it's axis), or we could rotate around an arbitry point and then translate our object into position.
+Or thirdly we could create an orbiting effect by translating our object to the position of the object we want to orbit around, rotate our object, and then translate it based upon the distance between the two objects.
+Actually there is much more you can do with rotations that isn't covered here, I'll be showing you how to do 1 and 3.
+
+The triangle will highlight rotatin technique number 1 (rotating around the objects axis). As you can see from the code below:
+
+m_translateTriangle = Matrix.CreateRotationX(m_triangleRotationAngle) 
+                * Matrix.CreateTranslation(m_trianglePosition);
+
+this may seem wrong because we rotate and then translate, however when applying matrix manipulation we read from right to left, so we are in fact, translating our shape into position and then rotating around it's origin. We're also rotating around the X axis.
+Try switching the translation and rotation around to see what happens.
+
+The square will highlight the third rotation technique mentioned. The code for this is shown below:
+
+m_translateQuad = Matrix.CreateTranslation(m_quad.Position - m_trianglePosition)
+            * Matrix.CreateRotationY(m_quadRotationAngle) * Matrix.CreateTranslation(m_trianglePosition);
+
+This code (when reading right from left), translates our square to the object we want to orbit around (the triangle). Then it rotates the square based on the square's rotation angle, and then translates the square based upon the distance between it and the triangle. We're also rotating around the Y axis.
+
+That's pretty much it for this lesson, other things worth noting are these lines in the initialisation code:
+
+RasterizerState rasterizerState = new RasterizerState();    
+rasterizerState.CullMode = CullMode.None;
+graphics.GraphicsDevice.RasterizerState = rasterizerState;
+
+This essentially sets our Culling technique from the default (counter-clockwise) to none.
+Remove this code to see what the problem is... yes we cannot see the backs of our shapes. This is because the backs of our shapes use counter-clockwise winding (because we defined the front of our shapes to use clockwise winding). This means that our graphics device will cull (not bother sending to the graphics card) the backs of our shapes. This increases efficiency because we can't see the back of our shape. Imagine a cube made up of quads, we can't see inside the cube (so we cannot see the back of our quads) so there is no point sending them to the graphics card to be drawn since this is wasteful.
+However we're not using 3D shapes, and we want to be able to see the backs of our 2D shapes so we disable culling.

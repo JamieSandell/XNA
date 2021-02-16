@@ -1,0 +1,8 @@
+C:\projects\NeheTutorialsForXNA4.0\Lesson 06\Lesson 06\Lesson 06\bin\x86\Debug\Lesson 06.exe
+C:\projects\NeheTutorialsForXNA4.0\Lesson 06\Lesson 06\Lesson 06\bin\x86\Debug\Lesson 06.pdb
+C:\projects\NeheTutorialsForXNA4.0\Lesson 06\Lesson 06\Lesson 06\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\projects\NeheTutorialsForXNA4.0\Lesson 06\Lesson 06\Lesson 06\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\projects\NeheTutorialsForXNA4.0\Lesson 06\Lesson 06\Lesson 06\obj\x86\Debug\Lesson 06.exe
+C:\projects\NeheTutorialsForXNA4.0\Lesson 06\Lesson 06\Lesson 06\obj\x86\Debug\Lesson 06.pdb
+C:\projects\NeheTutorialsForXNA4.0\Lesson 06\Lesson 06\Lesson 06\bin\x86\Debug\Content\Textures\NeHe.xnb
+C:\projects\NeheTutorialsForXNA4.0\Lesson 06\Lesson 06\Lesson 06\bin\x86\Debug\Content\Textures\Water.xnb

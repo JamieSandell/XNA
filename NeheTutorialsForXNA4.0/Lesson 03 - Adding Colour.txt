@@ -1,0 +1,25 @@
+In this lesson I will teach you how to colour the polygons. One polygon will show flat colouring, and the other (the triangle) will show smooth colouring. I'll warn you now, this tutorial is very short.
+
+To set a colour in XNA is trivial. We just alter the Quad class so it creates vertices of type VertexPositionColor instead of our custom vertex struct VertexPosition. Now we can do m_Vertices[i].Color = Color.Blue (where i represents the vertex element)
+N.B. That the Color class of XNA has some pre-defined colours we can use.
+This will produce flat colouring since all of the vertices will share the same colour value the square will be on colour.
+
+Now for our triangle we will demonstrate smooth colouring. This is where the colours of each vertex are blended together smootly. By setting the vertices of our triangle to red, blue, and green respectively it will become evident as to what I mean.
+
+Here is the new member variable of our Game class:
+Color m_quadColour;
+This will simply store the colour of our square.
+
+Here is the new initialisation code:
+
+m_quadColour = new Color(0.0f, 0.0f, 1.0f, 1.0f);
+m_triangleVertices[0].Color = Color.Green;
+m_triangleVertices[1].Color = Color.Red;
+m_triangleVertices[2].Color = Color.Blue;
+
+m_basicEffect.VertexColorEnabled = true;
+
+Notice for the colour of the quad, the first three paramters, these represent red, green, and blue respectively and range from 0.0 (none at all) to 1.0 (full amount), by making the red and green 0.0 and the blue component 1.0 we are telling XNA we want a blue quad. The last component is what is referred to as the alpha component, setting this to 1.0f will ensure we have a fully opaque square, setting it to 0.0f would result in a completely transparent square (actually this isn't strictly true because we haven't enabled any alpha blending, this will be covered in a later lesson).
+
+Everything else stays the same, apart from some minor alterations to the Quad class.
+There you go, you now know how to colour your polygons.

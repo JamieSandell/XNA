@@ -1,0 +1,9 @@
+C:\projects\NeheTutorialsForXNA4.0\Lesson 07\Lesson 07\Lesson 07\bin\x86\Release\Content\Textures\NeHe.xnb
+C:\projects\NeheTutorialsForXNA4.0\Lesson 07\Lesson 07\Lesson 07\bin\x86\Release\Content\Textures\Water.xnb
+C:\projects\NeheTutorialsForXNA4.0\Lesson 07\Lesson 07\Lesson 07\bin\x86\Release\Content\Textures\Crate.xnb
+C:\projects\NeheTutorialsForXNA4.0\Lesson 07\Lesson 07\Lesson 07\bin\x86\Release\Lesson 07.exe
+C:\projects\NeheTutorialsForXNA4.0\Lesson 07\Lesson 07\Lesson 07\bin\x86\Release\Lesson 07.pdb
+C:\projects\NeheTutorialsForXNA4.0\Lesson 07\Lesson 07\Lesson 07\obj\x86\Release\ResolveAssemblyReference.cache
+C:\projects\NeheTutorialsForXNA4.0\Lesson 07\Lesson 07\Lesson 07\obj\x86\Release\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\projects\NeheTutorialsForXNA4.0\Lesson 07\Lesson 07\Lesson 07\obj\x86\Release\Lesson 07.exe
+C:\projects\NeheTutorialsForXNA4.0\Lesson 07\Lesson 07\Lesson 07\obj\x86\Release\Lesson 07.pdb

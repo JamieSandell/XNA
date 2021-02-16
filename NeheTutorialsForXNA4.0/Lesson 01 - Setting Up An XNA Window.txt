@@ -1,0 +1,70 @@
+In the OpenGL version of this lesson the focus is on showing you how to setup an OpenGL window, toggle between fullscreen and windowed mode, and hiding the mouse cursor when in fullscreen mode, and showing the mouse cursor in windowed mode.
+
+This tutorial will not show you how to create an XNA 4.0 project, it assumes you already have prior knowledge that covers that.
+So go ahead and create a new XNA 4.0 Game project, I called the first one Lesson 01, but choose whatever you like.
+
+Once you have created the project you will see that there is quite a lot of code generated for you automatically and you will be in the Game1.cs file. I will go over the code with you, thankfully most of it is pretty self explanatory.
+
+The Game1.cs file is structured like any other C# class, the include (or using directives) files are at the top of the file and outside the namespace and class. Then the namespace is present (in this case namespace Lesson_01) and a class which contains member methods, a constructor, and in this particular case 5 overrideable methods.
+
+As you may have already noticed our Game1 class inherits from the base class Microsoft.Xna.Framework.Game, this conveiniantly provides us with basic graphics device initialisation, game logic, rendering code, and useful methods such IsMouseVisible.
+
+If you're new to games development you may not quite understand what is presented in the Game1 class. I will briefly run through the basics and then explain the code present in the Game1 class.
+In a game you generally want to do the following:
+
+1 - Initialise game logic needed to run, check to see wether or not required services are available, and load non-graphic related content. E.g. maximumNumberOfLives = 3; IsTransformAndLightingAvailable(); loadPlayerDefinedControls();
+2 - Load game resources. E.g. Load textures.
+3 - Go into an infinite loop where the game calls Update(); and Draw();
+4 - Quit out of the infinite loop if a quit condition has been met. e.q. User pressed the quit button.
+5 - Free up your resources used.
+
+Developers who haven't programmed games before, such as those who are used to an event driven environment such as C# applications, may find the update/draw loop strange, but imagine if the game was event driven, nothing would happen when the message queue was empty, such as non-player characters moving unless an event happened such as the capture of the mouse moving.
+
+Ok let's take a look at the two default member variables, graphics and spriteBatch.
+The graphics variable is of type GraphicsDeviceManager. The description for this type on MSDN states that variable of type GraphicsDeviceManager "Handles the configuration and management of the graphics device.".
+MSDN has the following description for variables of type SpriteBatch:
+"Enables a group of sprites to be drawn using the same settings."
+Now you may be wondering what exactly is a sprite, put simply, a sprite is used to draw a 2D bitmap (e.g. a rectangle with a brickwall texture). We'll discuss sprites and SpriteBatchs in greater detail in Lesson 02.
+
+Now I could explain the default methods provided for you, but they come with a summary that does a sufficient enough job that there really is no need to.
+So let's get back to the goals of this lesson. Let's allow the user to toggle between fullscreen and windowed mode.
+To do this we'll create a seperate Utility class (so we can use it in the future), and to break our code into more logical and manageable states.
+I won't show the code here because you can see open the source files yourself and have a look, so I'll just write the pseudo-code here:
+In our main file (Game1.cs) we'll want our update method to look like this
+Update(GameTime gameTime)
+{
+	currentKeyBoardState = KeyBoard.GetState();
+
+	if (Utility.HasKeyBeenPressed(Alt+Enter, previousKeyBoardState, currentKeyBoardState))
+	{
+		graphics.ToggleFullScreen();
+	}
+
+	previousKeyBoardState = currentKeyBoardState();
+}
+
+You might be thinking the question why do we need two keyboard state variables, so I'll explain. Let's suppose we want to toggle fullscreen mode by pressing the Enter key, you also might assume we could just do this:
+if (KeyBoardState.KeyPressed(Key.Enter))
+{
+	graphics.ToggleFullScreen();
+}
+
+Which would work, however it isn't quite what we desire because this would fire off whilst the Enter key is being pressed, so if the Enter key was being pressed down for half a second, ToggleFullScreen would get called as many times as possible during that half a second, when really we wanted to only call ToggleFullScreen once.
+To achieve this we need two KeyBoardState variables (previousKeyBoardState and currentKeyBoardState).
+This following example should highlight this:
+On the first frame of our Update method the Enter key is pressed down, currentKeyBoardState would set the pressed down key to Enter, previousKeyBoardState variable would be set to nothing, and out HasKeyBeenPressed(Enter, ..., ...) would return false.
+Then previousKeyBoardState would be set to currentKeyBoardState, therefore the Enter key being pressed down for the previousKeyBoardState would be true.
+On the second frame of Update the Enter key has been released.
+currentKeyBoardState would no longer say that the Enter key is being pressed down, it would be set to key up.
+So now we know that the key Enter has been pressed down and released, signifying that ToggleFullScreen should be called.
+Now HasKeyBeenPressed(Enter, ..., ...) will return true.
+previousKeyBoardState will be set to currentKeyBoardState and on frame 3 of our Update method both previousKeyBoardState and currentKeyBoardState would say that the Enter key is currently in the up position and thus ToggleFullScreen would not get called and as such it only got called once, which is what we wanted.
+
+You can see how the Utility.HasKeyBeenPressed method works in detail by looking at the Utility class sourcecode.
+There are two methods in there called HasKeyBeenPressed, one that takes a single key (e.g. Enter), and one that takes a list of key presses to check for (e.g. Alt+Enter).
+
+The second task of this Lesson is to hide the mouse cursor when in fullscreen mode, and show it when we are in windowed mode.
+We can do this trivially adding a member bool variable called m_IsFullScreen, and in the initialization method setting it to false. Then when fullscreen mode is toggled, we swap the m_IsFullScreen value around (i.e. from true to false, and from false to true). Once that is done we simply check this bool value, if it is true we set IsMouseVisible to false, and set it to true if m_IsFullScreen is false.
+If you want the mouse cursor to be shown set IsMouseVisible to be true in the initialization method because it is set to false by default.
+
+What's missing from this lesson that is in NeHe's first lesson is shading modes and what to do when the window is resized (e.g. projection matrix), since we don't do any drawing of shapes in this lesson I thought it was a little pointless, and it will be covered in the next lesson.

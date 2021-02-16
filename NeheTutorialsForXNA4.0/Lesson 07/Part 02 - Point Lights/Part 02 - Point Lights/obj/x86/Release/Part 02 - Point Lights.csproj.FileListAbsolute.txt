@@ -1,0 +1,10 @@
+C:\projects\NeheTutorialsForXNA4.0\Lesson 07\Part 02 - Point Lights\Part 02 - Point Lights\bin\x86\Release\Content\Textures\NeHe.xnb
+C:\projects\NeheTutorialsForXNA4.0\Lesson 07\Part 02 - Point Lights\Part 02 - Point Lights\bin\x86\Release\Content\Textures\Water.xnb
+C:\projects\NeheTutorialsForXNA4.0\Lesson 07\Part 02 - Point Lights\Part 02 - Point Lights\bin\x86\Release\Content\Textures\Crate.xnb
+C:\projects\NeheTutorialsForXNA4.0\Lesson 07\Part 02 - Point Lights\Part 02 - Point Lights\bin\x86\Release\Part 02 - Point Lights.exe
+C:\projects\NeheTutorialsForXNA4.0\Lesson 07\Part 02 - Point Lights\Part 02 - Point Lights\bin\x86\Release\Part 02 - Point Lights.pdb
+C:\projects\NeheTutorialsForXNA4.0\Lesson 07\Part 02 - Point Lights\Part 02 - Point Lights\obj\x86\Release\ResolveAssemblyReference.cache
+C:\projects\NeheTutorialsForXNA4.0\Lesson 07\Part 02 - Point Lights\Part 02 - Point Lights\obj\x86\Release\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\projects\NeheTutorialsForXNA4.0\Lesson 07\Part 02 - Point Lights\Part 02 - Point Lights\obj\x86\Release\Part 02 - Point Lights.exe
+C:\projects\NeheTutorialsForXNA4.0\Lesson 07\Part 02 - Point Lights\Part 02 - Point Lights\obj\x86\Release\Part 02 - Point Lights.pdb
+C:\projects\NeheTutorialsForXNA4.0\Lesson 07\Part 02 - Point Lights\Part 02 - Point Lights\bin\x86\Release\Content\PerPixelSpotlight.xnb

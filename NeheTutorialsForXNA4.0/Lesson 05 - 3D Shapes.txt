@@ -1,0 +1,64 @@
+As you've seen in previous lessons we have primarily focused on working with 2D shapes (our square and our triangle) in a 3D environment. This lesson will introduce the concept of working with 3D shapes (triangle->pyramid, square->cube).
+You will quickly come to realise that creating basic 3D shapes isn't hard, but can become tedious, and if you wanted to create anything more complicated then a basic 3D shape you would soon be reaching for a 3D modeller program very quickly.
+
+A pyramid consits of 4 triangles, one for the front face, one for the left face, one for the back face and one for the right face. This means we could create our pyramid using our existing triangle class, however we would have to rotate and translate them into the correct position. If we modify our triangle class so that we can specify the vertex positions of the triangle ourselves then we can build a pyramid class that incorporates four instances of triangle.
+
+Take a look at the updated triangle class, you can see it's very simple.
+Open up the Pyramid class. You'll see the following member variables:
+
+public Vector3 Position { get; set; }
+public Color Color { get; set; }
+public float Size
+static public GraphicsDeviceManager Graphics
+
+private Triangle m_frontFace, m_leftFace, m_rightFace, m_backFace;
+private bool m_created; //Used to determine whether or not the object has been created.
+
+The position variable represents the centre of the Pyramid (0.0, 0.0, 0.0).
+
+The color variable represents the color of the pyramid.
+
+The size variable represents the size of the pyramid. When setting the size variable a check is performed to see if the shape has already been created, if it hasn't been created then the vertices of the shape are not initialised. If the shape has been created then the shape's vertices are reinitialised to match the new size of the shape.
+
+The graphics variable is used to set GraphicsDeviceManager of the triangle, this is because it is the triangle class that explicitly calls the GraphicsDeviceManager.Draw method.
+
+The four Triangle variables, m_frontFace, m_leftFace, m_rightFace, m_backFace are the four triangles that represent the pyramid.
+
+The bool variable m_created is used to determine whether or not the shape has been created.
+
+Our constructor is nice and simple. It takes in a position, size, and color that represent the pyramid. These are then passed to the Initialise method. The Initialise method does the following:
+
+Set the m_created flag to false.
+Assign the passed in variables Position, Size, and Color and assigns them to their corresponding member variables.
+Call the InitialiseVertices method to create the shape.
+Set the m_created flag to true.
+
+The InitialiseVertices method might seem complex at first, but once you see how one face is defined the rest of the method easily falls into place.
+For each face of the pyramid we create a VertexPositionColor array of 3 elements (to store the 3 vertices that make up the face).
+A Vector3 is created to store the XYZ components of face's vertices.
+These vertices are stored in the VertexPositionColor[n].Position field, and are done in a clockwise manner. E.g. element [0] holds the bottom left vertex, element [1] holds the top middle vertex, and element [2] holds the bottom right vertex.
+Then a new Vector3 is created representing the centre position of the face.
+Then the particular face member variable (e.g. m_frontFace) is constructed from new, passing to the constructor the newly created VertexPositionColor array and the centre position of the face. For example:
+	m_frontFace = new Triangle(triangleVerticesFront, frontFacePosition);
+
+Something thing that might catch you out at first glance of the InitialiseVertices method is how the vertices are defined for each face. For the front face this isn't an issue as you can easily imagine a triangle in-front facing you head on.
+However for the other faces this might be more difficult to visualise. Here is how I visualise it.
+
+For the left face, imagine the front face of the pyramid, and then rotate it clockwise 90 degrees along the Y axis. As you visualise this keep not of the vertices, the bottom left vertex of the front face will keep the X and Y position but will now be into the screen. The top middle vertex will remain the same (since all of the faces of the pyramid meet at a single point at the top of the pyramid). The bottom right vertex will now be in the position of the bottom left vertex before it was rotated.
+
+You can imagine similar rotations of the other faces to help you visualise the vertex positions of each face.
+For the back face imagine the front face of the pyramid and rotate it clockwise around the Y axis by 180 degrees. For the right face imagine the front face of the pyramid and rotate it clockwise around the Y axis by 270 degrees.
+
+Our draw method for the Pyramid is incredibly clean and simple. It simply calls the Draw function of each of our faces.
+
+I could go over the Cube class, but it is, in essence, the same as the pyramid class. The only real difference is that to visualise the top face you would imagine the front face of the cube and rotate it 90 degrees clockwise around the X axis, and for the bottom face you can imagine the front face of the cube and rotate it 270 degrees clockwise around the X axis to visualise where the vertices of the face should be positioned.
+
+Thereis nothing much to explain within the Game1.cs file, something new that you might not understand is the CreateFromYawPitchRoll method. Using this method we can create a rotation on all 3 axis in one call. This creates a nice effect for our cube.
+
+P.S. You may have noticed in our two shape classes there are a lot of similarities and code that is almost identical (and in some cases the code is identical). We could have created a parent Shape class and created children classes (Pyramid and Cube) from this parent class. However I thought it was best to stay away from polymorphism and inheritance to keep things simple, feel free to improve the source code to include inheritance and polymorphism.
+
+Exercise
+---------
+1.) If you rotate the pyramid along the X axis instead of the Y axis you will see that our pyramid has no base, update the Pyarmid class to include an instance of our quad class to fix this problem.
+
+N.B. You'll want to disable culling so you can see the faces of the pyramid when rotating alon the X axis.

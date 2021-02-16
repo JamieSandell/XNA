@@ -1,0 +1,170 @@
+In this lesson we will draw two polygons, a triangle and a square.
+Once you have completed the lesson you should have an understanding of the X, Y, and Z axis and how to translate objects onto the screen exatly where you want them to appear. You'll also learn how to Draw polygons.
+
+If you're completely new to 3D then there is a good chance you are unaware of the X, Y, and Z axis. They are essential when working in 3D. The X axis represents the horizontal plane, and goes from left to right, -5 on the x axis is further left than 0, and 5 on the X axis is further right than 0 is.
+The Y axis is the vertical plane and goes from bottom to top, that is, -5 on the Y axis is lower down then 0 is on the Y axis, and 5 on the Y axis is higher up on the axis then 0 is.
+The Z axis is also a vertical axis like the X axis, however the Z axis goes into the screen and out of the screen, commonly referred to as Near and Far. -5 on the Z axis is further away (into the screen) than 0 is, and 5 on the Z axis is closer (out of the screen) then 0 is.
+With these 3 axes we are able to plot the position of an object (polygon) in 3D space, very handy indeed.
+
+"Enough 3D theory I want to draw a polygon!", don't worry we'll be getting to the rendering code shortly.
+I hope you've still got the code from the first lesson because we'll be using it as we'll be using it and improving on it each lesson.
+The member variables in this code are:
+m_basicEffect, m_triangleVertices, m_worldMatrix, m_viewMatrix, m_projectionMatrix, m_translateTriangle, m_translateQuad, m_trianglePosition, m_quadPosition, and m_quad.
+m_basicEffect is of type BasicEffect. Variables of type BasicEffect are shaders that mimic fixed pipeline functionality.
+If that sentence didn't make any sense or scared you I will now explain what a shader is and what fixed pipeline functionality means.
+
+A Shader is essentially a program you write (XNA comes with some default ones we can use for basic effects, such as rendering polygons and bumpmapping, BasicEffect is one of these shader programs), that the graphics card reads and executes, that's right, you can program your graphics card, as long as the card supports a Shader Model such as Shader Model 3.0.
+Fixed Pipeline Functionality means, in a nutshell, this means the functionality of the graphics card is fixed (cannot be programmed) and the pipeline is altered by setting render states, matrices, and lighting and material properties.
+m_triangleVertices represent the 3 vertices that make up our triangle.
+The m_worldMatrix transforms 3D data from Model Space into World Space. This needs to be calculated before rendering each object in our game.
+
+The m_viewMatrix transforms from world space into view space, this needs to be calculated each time the camera changes position.
+The m_projectionMatrix transforms from View Space into Screen Space, this is normally calculated and set once in the game (during initialisation).
+m_translateTriangle and m_translateQuad are translation matrices used to translate our two shapes into the correct position on screen.
+m_trianglePosition and m_quadPosition represent the position (in 3D space, e.g. X = 0, Y = 5, Z = -5) of our shapes.
+m_quad represents an instance of the Quad class which we are going to represent (a quad consists of 4 vertices, we can control these to make our square).
+
+
+If you're unsure as to what View Space, Screen Space, Model Space, and World Space are then I suggest reading more about them here:
+http://www.toymaker.info/Games/XNA/html/xna_matrix.html
+If you are unfamiliar with the term vertex, a vertex is a plotted point in 3D space. For example there are 3 points (3 vertices) that represent a triangle. Imagine one of them represents the bottom left corner of the triangle, another represents the bottom right corner of the triangle, and a third which represents the top middle point of the triangle:
+		x
+
+
+
+x				x
+Each of these vertices are made up of X, Y, and Z values to plot them correctly in 3D space.
+
+Ok now onto our code.
+Here's the new initialisation code:
+
+m_basicEffect = new BasicEffect(graphics.GraphicsDevice);
+This creates a new instance of the BasicEffect and set's the graphics device for our BasicEffect.
+
+m_worldMatrix = Matrix.Identity;
+m_viewMatrix = Matrix.CreateLookAt(new Vector3(0.0f,0.0f,0.1f), Vector3.Zero, Vector3.Up);
+ResetProjection();
+
+Here we set our World Matrix to an Identity Matrix and we create our View Matrix via the Matrix.CreateLookAt method.
+Basically our View Matrix is going to represent a camera, this camera is what we use to look at our scene (the objects on display). The CreateLookAt method takes a camera position, a camera target, and the Up Vector. The Position is the position of the camera, the target is what the camera is pointing at, and the Up Vector which simply specifies which way the top of the view should be. The Up Vector (generally) should be perpindicular to the look at vector.
+We then call the ResetProjection method, the code for this method is as follows:
+
+Viewport viewport = graphics.GraphicsDevice.Viewport;
+float aspect = (float)viewport.Width / (float)viewport.Height;
+m_projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspect, 0.1f, 100.0f);
+m_basicEffect.Projection = m_projectionMatrix;
+
+This piece of code essentially keeps the aspect ratio of our game correct no matter what the game window is resized too.
+Next in the initialisation code we have:
+
+graphics.PreferredBackBufferWidth = 640;
+graphics.PreferredBackBufferHeight = 480;
+
+This essentially is setting the resolution of our game.
+
+m_trianglePosition = new Vector3(0.0f, 0.0f, -5.0f);
+m_triangleVertices = new VertexPositionColor[3];
+m_triangleVertices[0].Position = new Vector3(-0.5f, -0.5f, 0.0f);
+m_triangleVertices[1].Position = new Vector3(0.0f, 0.0f, 0.0f);
+m_triangleVertices[2].Position = new Vector3(0.5f, -0.5f, 0.0f);
+
+Here we are setting the position of our triangle. We then instantiate the triangleVertices variable. Then we set the position of each vertex. [0] represents the bottom left vertex of the triangle, [1] represents the top middle vertex of our triangle, and [2] represents the bottom right vertex of our triangle.
+You maybe wondering what VertexPositionColor represents, this type is a custom vertex colour format structure that contains position and colour information and is supplied by XNA. We can create custom vertex information ourself and I'll show you how to do that at the end of this lesson.
+
+m_quadPosition = new Vector3(-2.0f, 0.0f, -5.0f);
+m_quad = new Quad(1.0f, 1.0f, ref m_quadPosition);
+Quad.Graphics = graphics;
+
+Here we set the position of our quad (square) and create a new instance of it and make sure the graphics device for the quad is the same one that we have initialised earlier (so the Quad can actually be drawn to the screen).
+I would explain the Quad class that I've created but I feel by the time that you have read and understood this lesson you will be able to comfortably work out how the Quad class works.
+
+Window.AllowUserResizing = true;
+Window.ClientSizeChanged += OnClientSizeChanged;
+
+This code allows the user to change the dimensions of our game screen, and also adds an event to catch when this happens, in the event we simply called our ResetProjectionMatrix so no matter what our screen width and height our aspect ratio is maintained.
+
+That's it for the initialisation code.
+Now for the Rendering code.
+
+graphics.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer,
+                Color.CornflowerBlue, 1.0f, 0);
+
+This statement causes the target to get cleared, the target is the render target, the depth buffer is cleared and out the screen color is set to CornflowerBlue, the depth is set to 1.0f and the stencil is set to 0.
+I won't cover the stencil bit because we don't use it (just yet). The depth buffer is cleared of any previous information.
+
+MSDN says the following about depth buffers:
+"When a pixel is rendered, color data as well as depth data can be stored. If a pixel is rendered a second time - such as when two objects overlap - depth testing determines which pixel is closer to the camera. The depth function determines what to do with the test result. For example, if CompareFunction.LessEqual is the current depth function, if the current pixel depth is less than or equal to the previous pixel depth, the current pixel depth is written to the depth buffer. Values that fail the depth test are discarded."
+
+Basically the depth buffer makes sure that closer objects are drawn over objects that are further away when objects overlap eachother. A depth of 1.0f is set so that 
+
+Now we come to actually drawing the shapes. Here is how the following code actually works:
+We cycle through all of the passes of our BasicEffect because a BasicEffect is a shader, and a shader can have multiple rendering passes.
+Then we set the World Matrix of our BasicEffect to the translation matrix of our shape (essentially translating our shape into the position on screen we desire).
+Then we apply the current pass of our effect (starting the effect)
+Then we draw the shape.
+
+            for (int i = 0; i < m_basicEffect.CurrentTechnique.Passes.Count; i++)
+            {
+                m_basicEffect.World = m_translateTriangle;
+                m_basicEffect.CurrentTechnique.Passes[i].Apply();
+                graphics.GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.TriangleList, 
+                    m_triangleVertices, 0, 1);
+
+                m_basicEffect.World = m_translateQuad;
+                m_basicEffect.CurrentTechnique.Passes[i].Apply();
+                m_quad.Draw();
+            }
+
+The part that might seem confusing is this:
+
+graphics.GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.TriangleList, 
+                    m_triangleVertices, 0, 1);
+
+What is DrawUserPrimitives? Well there are a number of ways to draw to the screen, some more efficient than others, and they will be covered in future lessons.
+The <VertexPositionColor> is telling the method to expect the VertexPositionColor vertex struct, which is what we have said our triangle vertices are. We then specify the type of primitive to draw, in this case a TriangeList, we then tell the method where our vertices are located (in m_triangleVertices), we then specify the starting offset, which is 0 (the start), in most cases. Finally we instruct the method to draw 1 triangle (since that is all our vertex data specifies).
+
+The last piece of new code is to be found in the Update method, and is this:
+
+m_translateTriangle = Matrix.CreateTranslation(m_trianglePosition);
+m_translateQuad = Matrix.CreateTranslation(m_quad.Position);
+
+What this piece of code does is create a translation matrix based on the desired position of the shape.
+Remember these matrices are what are used when translating our shape into position in the Draw routine.
+Now we could have just done this once in our initialisation method instead of doing it on every update of the frame, however if we wanted our shapes to move position we would have to calculate that when changing position, so we might as well do it here for future reference in future lessons (actually you would only update the translation matrix of the shape when the shape has actually changed position, but you get the idea).
+
+And now, as promised, I'll show you how to create your own custom vertex struct. I'm doing this, not only because it's a good skill to know, but because in the original Nehe Lesson 02 he doesn't use any colour. If we write our own custom vertex struct we can write it so that it only contains position vertex data. You might be asking the question "but then how will we see the shape?", well by default the colour will be white.
+If we go to the definition of VertexPositionColor we can see how to create our own custom vertex struct.
+You'll notice that VertexPositionColor implements the IVertexType interface, we'll do the same in our custom vertex struct, doing so means our custom types can be used the same way as the built in ones.
+You can also see that VertexPositionColor also has a Vector3 member variable for Position, we'll have the same thing too.
+Now we can build our custom vertex struct easily.
+Since we are implementing the IVertexType interface we will need to make sure we implement it fully, i.e. all the methods it contains we must write an implementation for.
+The only method (a property in this case) that IVertexType contains is:
+VertexDeclaration VertexDeclaration { get; }
+We too will have to implement this. For us to be able to do that we're going to have to know what a VertexDeclaration is.
+If we go and look at the definition for constructing a VertexDeclaration we can see that it an array of per-vertex elements, so now we need to know what a VertexElement array is, more concisely what a VertexElement is.
+The VertexElement constructor takes these parameters:
+int offset, VertexElementFormat elementFormat, VertexElementUsage elementUsage, int usageIndex
+offset represents the offset from the beginning of the stream to the beginning of the vertex data. In our case this will be 0, however if we were to add colour, the offset of colour would be 12. This is because our Position would be of type Vector3, and a Vector3 variable is 3 floats, one float is 4 bytes, so 3 of them is 12, and therefore the offset for colour would be 12.
+VertexElementFormat represents the format of the vertex, in our case a position is a Vector3, so we would pass in VertexElementFormat.Vector3 for this parameter.
+VertexElementUsage, this represents how the vertex element is intended to be used, we pass in VertexElementUsage.Position since we will be passing a position.
+The last variable we need to pass is usageIndex. The documentation for this is:
+"Modifies the usage data to allow the user to specify multiple usage types."
+Since we aren't writing our own shader (yet) this might not make much sense, but if we did write our own shader we could (for whatever reason we wanted to) have to types of Position in our Custom Vertex Struct, the first one would be 0, the second 1, and so on. Then in the shader we could access which Position data we wanted by using Position0, Position1.
+So we will set this to 0.
+Thus our VertexDeclaration will create a VertexElement array, and our VertexElement array will contain the information we need to use position vertex data.
+This will look like this:
+        public readonly static VertexDeclaration VertexDeclaration = new VertexDeclaration
+        (
+            new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position, 0)
+        );
+Ignore the readonly static part for now, I'll explain that later.
+If we wanted to add colour it would look like this:
+        public readonly static VertexDeclaration VertexDeclaration = new VertexDeclaration
+        (
+            new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position, 0),
+	    new VertexElement(12, VertexElementFormat.Vector4, VertexElementUsage.Color, 0)
+        );
+Why do we make it readonly and static. Two reasons, the first reason is our vertex information isn't going to change across different instances of our struct, so we'll make it static so that it is shared across all instances of the struct. Secondly we make it readonly so it cannot be modified.
+In the sourcecode you can find this custom vertex struct in the file 'CodeFileVertex.cs'.
+
+And that's it for this lesson.

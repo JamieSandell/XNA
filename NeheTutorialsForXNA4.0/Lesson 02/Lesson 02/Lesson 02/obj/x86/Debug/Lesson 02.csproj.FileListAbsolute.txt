@@ -1,0 +1,6 @@
+C:\projects\NeheTutorialsForXNA4.0\Lesson 02\Lesson 02\Lesson 02\bin\x86\Debug\Lesson 02.exe
+C:\projects\NeheTutorialsForXNA4.0\Lesson 02\Lesson 02\Lesson 02\bin\x86\Debug\Lesson 02.pdb
+C:\projects\NeheTutorialsForXNA4.0\Lesson 02\Lesson 02\Lesson 02\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\projects\NeheTutorialsForXNA4.0\Lesson 02\Lesson 02\Lesson 02\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\projects\NeheTutorialsForXNA4.0\Lesson 02\Lesson 02\Lesson 02\obj\x86\Debug\Lesson 02.exe
+C:\projects\NeheTutorialsForXNA4.0\Lesson 02\Lesson 02\Lesson 02\obj\x86\Debug\Lesson 02.pdb
